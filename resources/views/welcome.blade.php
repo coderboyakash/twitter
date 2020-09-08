@@ -1,100 +1,87 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-
-        <title>Laravel</title>
-
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
-
-        <!-- Styles -->
-        <style>
-            html, body {
-                background-color: #fff;
-                color: #636b6f;
-                font-family: 'Nunito', sans-serif;
-                font-weight: 200;
-                height: 100vh;
-                margin: 0;
-            }
-
-            .full-height {
-                height: 100vh;
-            }
-
-            .flex-center {
-                align-items: center;
-                display: flex;
-                justify-content: center;
-            }
-
-            .position-ref {
-                position: relative;
-            }
-
-            .top-right {
-                position: absolute;
-                right: 10px;
-                top: 18px;
-            }
-
-            .content {
-                text-align: center;
-            }
-
-            .title {
-                font-size: 84px;
-            }
-
-            .links > a {
-                color: #636b6f;
-                padding: 0 25px;
-                font-size: 13px;
-                font-weight: 600;
-                letter-spacing: .1rem;
-                text-decoration: none;
-                text-transform: uppercase;
-            }
-
-            .m-b-md {
-                margin-bottom: 30px;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="flex-center position-ref full-height">
-            @if (Route::has('login'))
-                <div class="top-right links">
-                    @auth
-                        <a href="{{ url('/home') }}">Home</a>
-                    @else
-                        <a href="{{ route('login') }}">Login</a>
-
-                        @if (Route::has('register'))
-                            <a href="{{ route('register') }}">Register</a>
-                        @endif
-                    @endauth
-                </div>
-            @endif
-
-            <div class="content">
-                <div class="title m-b-md">
-                    Laravel
-                </div>
-
-                <div class="links">
-                    <a href="https://laravel.com/docs">Docs</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://blog.laravel.com">Blog</a>
-                    <a href="https://nova.laravel.com">Nova</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://vapor.laravel.com">Vapor</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
+@extends('layouts.app')
+@section('content')
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-4 bg-dark" id="leftMenu">
+            <div class="row">
+                <div class="col-lg-7"></div>
+                <div class="col-lg-5">
+                    <a href=""><i class="fa fa-twitter twitterLogo p-1 rounded-circle"></i></a>
+                    <div class="mt-3"><a href="" class="explore text-decoration-none pt-2 pl-3 pb-2 pr-3"><i class="fa fa-hashtag mr-2"></i> &nbsp;&nbsp;Explore</a></div>
+                    <div class="mt-3"><a href="" class="explore text-decoration-none pt-2 pl-3 pb-2 pr-3"><i class="fa fa-gear mr-2 fa-spin"></i> &nbsp;&nbsp;Settings</a></div>
                 </div>
             </div>
         </div>
-    </body>
-</html>
+        <div class="col-lg-4 bg-dark vh-100" id="mainContent">
+            <form action="" id="searchBox" class="pl-3 pr-3">
+                <div class="form-group">
+                    <input type="text" class="form-control mt-3" placeholder="Search Twitter" style="border-radius:20px;">
+                </div>
+            </form>
+            <div class="row categories m-0">
+                @foreach($categories as $category)
+                    <div type="button" class="pl-3 pr-3 pt-2 pb-2 category text-center bg-dark">{{ $category->name }}</div>
+                @endforeach
+            </div>
+            @foreach($tweets as $tweet)
+            <div class="card m-0 p-0 bg-dark">
+                <div class="card-body">
+                    <strong>{{ $tweet->created_at }}</strong>
+                    <div>Category</div>
+                    <h5 class="card-title">{{ $tweet->title }}</h5>
+                </div>
+            </div>
+            @endforeach
+        </div>
+        <div class="col-lg-4 bg-dark" id="rightMenu">
+
+        </div>
+    </div>
+</div>
+@endsection
+@section('styles')
+    <style>
+        #mainContent{
+            border-left:1px solid grey;
+            border-right:1px solid grey;
+            padding:0px;
+        }
+        #searchBox{
+            border-bottom:1px solid grey;
+        }
+        #mainContent .card{
+            border:none;
+            border-bottom:1px solid grey;
+            border-radius:0px;
+            color:aliceblue;
+        }
+        .category{
+            color:grey;
+            
+        }
+        .twitterLogo{
+            font-size:35px;
+            color:white;
+        }
+        .twitterLogo:hover{
+            background-color:rgb(15, 87, 87);
+            transition-duration: 0.7s;
+        }
+        .explore{
+            transition-duration: 0.7s;
+            font-size:20px;
+            color:white;
+            border-radius:25px;
+        }
+        .explore:hover{
+            background-color:rgb(15, 87, 87);
+            transition-duration: 0.3s;
+            color:rgb(93, 93, 252);
+        }
+        .categories{
+            overflow:hidden;
+            height:40px;
+            border-bottom:1px solid grey;
+        }
+    </style>
+@endsection

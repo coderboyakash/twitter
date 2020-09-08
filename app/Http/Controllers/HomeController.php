@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use App\Tweet;
+use App\Category;
 class HomeController extends Controller
 {
     /**
@@ -23,6 +24,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $tweets = Tweet::all();
+        $categories = Category::all();
+        return view('welcome', compact('tweets', 'categories'));
     }
 }
